@@ -1,3 +1,7 @@
+/* =======================
+   CATÁLOGO DE PRODUCTOS
+======================= */
+
 const products = {
   Xiaomi: [
     {
@@ -92,9 +96,15 @@ const products = {
   ]
 };
 
+/* =======================
+   RENDER DE PRODUCTOS
+======================= */
+
 function renderProducts(brand, containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
+
+  container.innerHTML = "";
 
   products[brand].forEach((product, index) => {
     const mainImgId = `${brand}-${index}-main`;
@@ -107,49 +117,93 @@ function renderProducts(brand, containerId) {
 
       <div class="thumbs">
         ${product.images
-          .map(img => `<img src="${img}" onclick="changeImage('${mainImgId}', '${img}')">`)
+          .map(
+            img =>
+              `<img src="${img}" onclick="changeImage('${mainImgId}', '${img}')">`
+          )
           .join("")}
       </div>
 
-<h3>${product.name}</h3>
-<p class="price">€ ${product.price} EUR</p>
+      <h3>${product.name}</h3>
+      <p class="price">€ ${product.price} EUR</p>
 
-<div class="product-actions">
-  <button onclick="addToCart('${brand}', '${product.name}', ${product.price})">
-    Agregar al carrito
-  </button>
-
-  <button onclick="buyNow('${brand}', '${product.name}', ${product.price})">
-    Comprar ahora
-  </button>
-</div>
+      <div class="product-actions">
+        <button onclick="addToCart('${brand}', '${product.name}', ${product.price})">
+          Agregar al carrito
+        </button>
+        <button onclick="buyNow('${brand}', '${product.name}', ${product.price})">
+          Comprar ahora
+        </button>
+      </div>
+    `;
 
     container.appendChild(card);
   });
 }
 
-window.changeImage = (id, src) => {
+window.changeImage = function (id, src) {
   document.getElementById(id).src = src;
 };
 
-renderProducts("Xiaomi", "xiaomiProducts");
-renderProducts("Samsung", "samsungProducts");
-renderProducts("Apple", "appleProducts");
+/* =======================
+   CARRITO
+======================= */
 
-window.buyProduct = function (brand, name, price) {
+let cart = [];
+
+window.addToCart = function (brand, name, price) {
+  cart.push({ brand, name, price });
+  alert("Producto agregado al carrito");
+};
+
+window.buyNow = function (brand, name, price) {
+  cart = [{ brand, name, price }];
+  openCheckout();
+};
+
+function openCheckout() {
+  renderCart();
+  document.getElementById("cartSection").style.display = "block";
+  document.getElementById("cartSection").scrollIntoView({ behavior: "smooth" });
+}
+
+function renderCart() {
+  const itemsDiv = document.getElementById("cartItems");
+  const totalSpan = document.getElementById("cartTotal");
+  if (!itemsDiv || !totalSpan) return;
+
+  itemsDiv.innerHTML = "";
+  let total = 0;
+
+  cart.forEach(item => {
+    total += item.price;
+    const div = document.createElement("div");
+    div.textContent = `${item.brand} - ${item.name} — € ${item.price} EUR`;
+    itemsDiv.appendChild(div);
+  });
+
+  totalSpan.textContent = `€ ${total} EUR`;
+}
+
+window.startCheckout = function () {
   const orderSection = document.getElementById("orderSection");
   const productInput = document.getElementById("productName");
   const priceInput = document.getElementById("productPrice");
 
-  if (!orderSection) {
-    alert("No existe el formulario (orderSection)");
-    return;
-  }
+  const names = cart.map(i => `${i.brand} - ${i.name}`).join(" | ");
+  const total = cart.reduce((s, i) => s + i.price, 0);
 
-  productInput.value = `${brand} - ${name}`;
-  priceInput.value = `€ ${price} EUR`;
+  productInput.value = names;
+  priceInput.value = `€ ${total} EUR`;
 
   orderSection.style.display = "block";
   orderSection.scrollIntoView({ behavior: "smooth" });
 };
 
+/* =======================
+   INICIALIZACIÓN
+======================= */
+
+renderProducts("Xiaomi", "xiaomiProducts");
+renderProducts("Samsung", "samsungProducts");
+renderProducts("Apple", "appleProducts");
