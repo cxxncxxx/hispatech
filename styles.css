@@ -64,3 +64,14 @@ button {
   padding: 20px;
   background: #f4f6ff;
 }
+
+.product-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.product-actions button {
+  flex: 1;
+}
