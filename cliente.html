@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mis pedidos | HISPATECH</title>
+  <link rel="icon" href="hispatechfavicon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <h1>Mis pedidos</h1>
+
+  <div id="orders"></div>
+
+  <div class="payment-info">
+    <h2>Datos para transferencia</h2>
+    <p><strong>Banco:</strong> Wise / SEPA</p>
+    <p><strong>IBAN:</strong> <span id="iban"></span></p>
+    <p><strong>Titular:</strong> HISPATECH</p>
+    <p><strong>Concepto:</strong> Número de pedido</p>
+  </div>
+
+  <script type="module" src="./firebase.js"></script>
+  <script type="module" src="./cliente.js"></script>
+</body>
+</html>
