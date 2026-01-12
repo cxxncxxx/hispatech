@@ -111,10 +111,18 @@ function renderProducts(brand, containerId) {
           .join("")}
       </div>
 
-      <h3>${product.name}</h3>
-      <p class="price">€${product.price}</p>
-      <button onclick="buyProduct('${brand}', '${product.name}', ${product.price})">Comprar</button>
-    `;
+<h3>${product.name}</h3>
+<p class="price">€ ${product.price} EUR</p>
+
+<div class="product-actions">
+  <button onclick="addToCart('${brand}', '${product.name}', ${product.price})">
+    Agregar al carrito
+  </button>
+
+  <button onclick="buyNow('${brand}', '${product.name}', ${product.price})">
+    Comprar ahora
+  </button>
+</div>
 
     container.appendChild(card);
   });
