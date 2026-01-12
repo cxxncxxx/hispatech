@@ -2,59 +2,241 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>HISPATECH | Tienda Oficial</title>
-  <link rel="icon" href="hispatechfavicon.png">
-  <link rel="stylesheet" href="styles.css">
+  <title>HISPATECH | Tienda Online</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    /* HEADER */
+    header {
+      background: #111;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* CARRITO */
+    .cart {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart span {
+      background: red;
+      color: white;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 50%;
+      position: absolute;
+      top: -8px;
+      right: -10px;
+    }
+
+    .cart.shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    /* PRODUCTOS */
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .main-img {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .thumbs {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .thumbs img {
+      width: 45px;
+      height: 45px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #0a4cff;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    /* CARRITO PANEL */
+    #cartPanel {
+      display: none;
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .remove {
+      color: red;
+      cursor: pointer;
+    }
+
+    /* FORMULARIO */
+    #orderSection {
+      display: none;
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>HISPATECH</h1>
+<header>
+  <h1>📱 Tienda Online</h1>
 
-<!-- ===== APPLE ===== -->
-<section>
-  <h2>Apple</h2>
-  <div class="products" id="appleProducts"></div>
-</section>
+  <div class="cart" onclick="toggleCart()" id="cartIcon">
+    🛒 Carrito
+    <span id="cartCount">0</span>
+  </div>
+</header>
 
-<!-- ===== SAMSUNG ===== -->
-<section>
-  <h2>Samsung</h2>
-  <div class="products" id="samsungProducts"></div>
-</section>
+<!-- PRODUCTOS -->
+<h2>Xiaomi</h2>
+<div id="xiaomiProducts" class="products"></div>
 
-<!-- ===== XIAOMI ===== -->
-<section>
-  <h2>Xiaomi</h2>
-  <div class="products" id="xiaomiProducts"></div>
-</section>
+<h2>Samsung</h2>
+<div id="samsungProducts" class="products"></div>
+
+<h2>Apple</h2>
+<div id="appleProducts" class="products"></div>
 
 <!-- CARRITO -->
-<div id="cartSection" style="display:none; margin-top:40px;">
-  <h2>🛒 Carrito</h2>
+<div id="cartPanel">
+  <h3>🛒 Carrito</h3>
+  <div id="cartItems"></div>
 
-  <div id="cartItems" style="margin-bottom:15px;"></div>
+  <p><strong>Total:</strong> € <span id="cartTotal">0</span> EUR</p>
 
-  <p>
-    <strong>Total:</strong>
-    <span id="cartTotal">€ 0 EUR</span>
-  </p>
-
-  <button onclick="startCheckout()">Iniciar compra</button>
+  <button onclick="checkout()">Finalizar compra</button>
+  <button onclick="clearCart()" style="background:#999">Vaciar carrito</button>
 </div>
-  
+
 <!-- FORMULARIO -->
-<div id="orderSection" style="display:none;">
-  <h2>Finalizar compra</h2>
-
-  <input type="text" id="productName" readonly>
-  <input type="text" id="productPrice" readonly>
-
-  <!-- resto del formulario -->
+<div id="orderSection">
+  <h3>Finalizar compra</h3>
+  <input type="text" id="customerName" placeholder="Nombre">
+  <input type="email" id="customerEmail" placeholder="Email">
+  <input type="text" id="customerAddress" placeholder="Dirección">
+  <button>Enviar pedido</button>
 </div>
 
-<script type="module" src="./firebase.js"></script>
-<script src="./catalog.js"></script>
-<script type="module" src="./order.js"></script>
+<!-- CATALOGO -->
+<script src="catalog.js"></script>
+
+<script>
+  let cart = [];
+
+  function addToCart(brand, name, price) {
+    cart.push({ brand, name, price });
+    updateCart();
+    animateCart();
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    updateCart();
+  }
+
+  function clearCart() {
+    cart = [];
+    updateCart();
+  }
+
+  function updateCart() {
+    const cartItems = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
+
+    cartItems.innerHTML = "";
+    let total = 0;
+
+    cart.forEach((item, index) => {
+      total += item.price;
+      cartItems.innerHTML += `
+        <div class="cart-item">
+          <span>${item.name} – € ${item.price} EUR</span>
+          <span class="remove" onclick="removeFromCart(${index})">❌</span>
+        </div>
+      `;
+    });
+
+    cartCount.textContent = cart.length;
+    cartTotal.textContent = total;
+  }
+
+  function toggleCart() {
+    const panel = document.getElementById("cartPanel");
+    panel.style.display = panel.style.display === "block" ? "none" : "block";
+  }
+
+  function animateCart() {
+    const icon = document.getElementById("cartIcon");
+    icon.classList.add("shake");
+    setTimeout(() => icon.classList.remove("shake"), 300);
+  }
+
+  function checkout() {
+    document.getElementById("orderSection").style.display = "block";
+    document.getElementById("orderSection").scrollIntoView({ behavior: "smooth" });
+  }
+</script>
 
 </body>
 </html>
