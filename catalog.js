@@ -139,7 +139,7 @@ window.buyProduct = function (brand, name, price) {
   }
 
   productInput.value = `${brand} - ${name}`;
-  priceInput.value = price;
+  priceInput.value = `€ ${price} EUR`;
 
   orderSection.style.display = "block";
   orderSection.scrollIntoView({ behavior: "smooth" });
