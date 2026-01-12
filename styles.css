@@ -85,3 +85,16 @@ button {
 #cartItems div {
   margin-bottom: 8px;
 }
+
+#cartPanel {
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 320px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 15px;
+  z-index: 9999;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
