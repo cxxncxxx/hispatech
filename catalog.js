@@ -52,3 +52,12 @@ function renderProducts(brand, containerId) {
 renderProducts("Apple", "appleProducts");
 renderProducts("Samsung", "samsungProducts");
 renderProducts("Xiaomi", "xiaomiProducts");
+
+window.buyProduct = (brand, name, price) => {
+  document.getElementById("productBrand").value = brand;
+  document.getElementById("productName").value = name;
+  document.getElementById("price").value = price;
+
+  document.getElementById("orderSection").style.display = "block";
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+};
