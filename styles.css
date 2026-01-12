@@ -34,3 +34,28 @@ button {
   padding: 20px;
   background: #f4f6ff;
 }
+
+.main-img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.thumbs {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.thumbs img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+
+.thumbs img:hover {
+  border-color: #0a4cff;
+}
