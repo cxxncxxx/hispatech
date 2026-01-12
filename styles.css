@@ -8,12 +8,19 @@
 .product-card {
   border: 1px solid #ddd;
   padding: 15px;
-  width: 220px;
   text-align: center;
+  background: #fff;
+  width: 100%;          /* 👈 CLAVE */
+  box-sizing: border-box;
 }
 
-.product-card img {
-  width: 100%;
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
 button {
