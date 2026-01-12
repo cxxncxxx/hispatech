@@ -127,3 +127,21 @@ window.changeImage = (id, src) => {
 renderProducts("Xiaomi", "xiaomiProducts");
 renderProducts("Samsung", "samsungProducts");
 renderProducts("Apple", "appleProducts");
+
+window.buyProduct = function (brand, name, price) {
+  const orderSection = document.getElementById("orderSection");
+  const productInput = document.getElementById("productName");
+  const priceInput = document.getElementById("productPrice");
+
+  if (!orderSection) {
+    alert("No existe el formulario (orderSection)");
+    return;
+  }
+
+  productInput.value = `${brand} - ${name}`;
+  priceInput.value = price;
+
+  orderSection.style.display = "block";
+  orderSection.scrollIntoView({ behavior: "smooth" });
+};
+
