@@ -22,3 +22,15 @@ button {
   padding: 10px;
   cursor: pointer;
 }
+
+.order-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.payment-info {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f4f6ff;
+}
