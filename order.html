@@ -1,0 +1,27 @@
+<form id="orderForm">
+
+  <h2>Datos de envío</h2>
+
+  <input type="text" id="name" placeholder="Nombre y apellido" required>
+  <input type="text" id="dni" placeholder="DNI / NIE" required>
+  <input type="tel" id="phone" placeholder="Teléfono" required>
+  <input type="email" id="email" placeholder="Email" required>
+
+  <input type="text" id="address" placeholder="Dirección" required>
+  <input type="text" id="postalCode" placeholder="Código Postal" required>
+  <input type="text" id="city" placeholder="Ciudad" required>
+  <input type="text" id="province" placeholder="Provincia" required>
+
+  <!-- PRODUCTO (esto después se completa automáticamente desde el catálogo) -->
+  <input type="hidden" id="productName">
+  <input type="hidden" id="productBrand">
+  <input type="hidden" id="price">
+
+  <button type="submit">Confirmar pedido</button>
+
+</form>
+
+<p id="orderMsg"></p>
+
+<script type="module" src="./firebase.js"></script>
+<script type="module" src="./order.js"></script>
