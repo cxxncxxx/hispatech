@@ -75,3 +75,13 @@ button {
 .product-actions button {
   flex: 1;
 }
+
+#cartSection {
+  border: 1px solid #ddd;
+  padding: 20px;
+  background: #f9faff;
+}
+
+#cartItems div {
+  margin-bottom: 8px;
+}
